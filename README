@@ -1,0 +1,27 @@
+Abstract
+~~~~~~~~
+SSD1963 is a user-space driver library for the so-named display controller chip
+by Solomon Systech.
+
+It provides functions to initialize and control the Framebuffer on that chip as
+well as setting up frequencies, display timings and the bus from the controller
+to the LCD.
+
+About the controller
+~~~~~~~~~~~~~~~~~~~~
+The SSD1963 is an LCD controller with an inbuilt framebuffer of 1215 KiB to
+hold the RGB values for each pixel. It supports quite a set of commands that
+allow to easily manipulate what's shown on the LCD without changing the actual
+data in the framebuffer.
+
+This library provides access to all the documenten commands the controller
+supports.
+
+Author
+~~~~~~
+Author of this code is Franz Brauße.
+
+The homepage currently is http://karlchenofhell.org/kram.php?part=ssd1963
+
+This code is available under the BSD 3-clause license which is to be found in
+the LICENSE file.
