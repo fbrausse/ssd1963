@@ -17,6 +17,30 @@ data in the framebuffer.
 This library provides access to all the documenten commands the controller
 supports.
 
+Library
+~~~~~~~
+To use the library, the header "ssd1963.h" needs to be included in the source
+file. Also either one of the following must be provided prior to including the
+header:
+
+ - provide #defines for the macros
+    - SSD_WR_CMD(x)
+    - SSD_WR_DATA(x)
+   that each will perform a write of an 8-bit-value to the lower 8 bits of the
+   data bus connected to the SSD1963 controller chip by asserting #WR, writing
+   and releasing #WR. The first macro needs to assert the D/#C line as well
+   during that whole write cycle.
+
+   Optionally the macro SSD_RD_DATA() may be defined which allows the
+   initialization code in ssd_init_pll() to verify that the PLL of the chip
+   indeed has settled on the specified frequency settings and is stable.
+   However, initialization will also proceed without this macros being defined
+   and in my local experiments I haven't found a setting and PLL combination
+   that would produce unstable results.
+
+ - or #define SSD_IO_MACROS to a path name (including surrounding "quotes")
+   pointing to a C header file that defines the above macros.
+
 Example
 ~~~~~~~
 ssd-cat.c provides a basic example of how to use the ssd1963.h header. It uses
@@ -26,10 +50,10 @@ It also assumes an ITDB02-4.3 display to be connected to the RPi, though the
 only thing necessary to change would be the display definition, see itdb02.h
 for those already defined and ssd1963.h, struct ssd_display for reference.
 
-Those display by ITead Studios also contain a touch controller which can be
-talked to using SPI which the Raspberry Pi supports natively. It's bus lines
-can also be connected to the Raspberry Pi, though the pins currently used by
-ssd-gpio-rpi.h will need to be changed.
+Those displays by ITead Studio also contain a touch controller which can be
+talked to using SPI which the Raspberry Pi supports natively. Its bus lines
+can also be connected to the Raspberry Pi, though the pin numbers currently
+used by the header ssd-gpio-rpi.h will need to be changed.
 
 There even is a driver for the touch controller XPT2046 in the kernel, called
 ads7846. At
@@ -38,7 +62,9 @@ ads7846. At
 
 a patch for the Raspbian Linux Kernel 3.2.27 may be found which attaches the
 appropriate driver to the SPI bus and provides the initial platform_data
-required by the ads7846 driver to identify the touch controller.
+required by the ads7846 driver to identify the touch controller. After that
+modification, Linux will automatically load the driver and provide the touch
+screen as a standard input device.
 
 Author
 ~~~~~~
