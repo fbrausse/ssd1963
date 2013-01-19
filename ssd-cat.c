@@ -21,49 +21,16 @@
 
 static unsigned char buf[BUF_SZ];
 
+static unsigned do_init = 0;	/* also perform initialization of the display */
+static unsigned x, y, w, h;	/* define rectangle to overwrite */
+
+static void parse_options(int argc, char **argv);
+
 int main(int argc, char **argv)
 {
-	int argi = 1, r = EXIT_SUCCESS;
+	int r = EXIT_SUCCESS;
 
-	int do_init = 0;
-	unsigned i, x, y, w, h;
-
-	if (argi < argc && !strcmp("-i", argv[argi])) {
-		do_init = 1;
-		argi++;
-	}
-
-	for (i=0; i<4 && argi<argc; i++, argi++) {
-		char *endptr;
-		unsigned long v;
-		errno = 0;
-		v = strtoul(argv[argi], &endptr, 0);
-		if (*endptr || errno || v > UINT_MAX) {
-			fprintf(stderr, "invalid value for %c: %s\n",
-				"XYWH"[i], argv[argi]);
-			return EXIT_FAILURE;
-		}
-		*(unsigned *[]){ &x, &y, &w, &h }[i] = v;
-	}
-	if (i < 4 || argi < argc) {
-		fprintf(stderr, USAGE, argv[0]);
-		return EXIT_FAILURE;
-	}
-
-	if (!(w > 0 && h > 0)) {
-		fprintf(stderr, "error: W and H must be greater than zero\n");
-		return EXIT_FAILURE;
-	}
-	if (x + w < x || x + w > LCD_PANEL_W) {
-		fprintf(stderr, "error: X + W > panel width (%d)\n",
-			LCD_PANEL_W);
-		return EXIT_FAILURE;
-	}
-	if (y + h < y || y + h > LCD_PANEL_H) {
-		fprintf(stderr, "error: Y + H > panel height (%d)\n",
-			LCD_PANEL_H);
-		return EXIT_FAILURE;
-	}
+	parse_options(argc, argv);
 
 	gpio_init();
 	ssd_gpio_rpi_init();
@@ -102,4 +69,46 @@ int main(int argc, char **argv)
 	gpio_fini();
 
 	return r;
+}
+
+static void parse_options(int argc, char **argv)
+{
+	int argi = 1, i;
+
+	if (argi < argc && !strcmp("-i", argv[argi])) {
+		do_init = 1;
+		argi++;
+	}
+
+	for (i=0; i<4 && argi<argc; i++, argi++) {
+		char *endptr;
+		unsigned long v;
+		errno = 0;
+		v = strtoul(argv[argi], &endptr, 0);
+		if (*endptr || errno || v > UINT_MAX) {
+			fprintf(stderr, "invalid value for %c: %s\n",
+				"XYWH"[i], argv[argi]);
+			exit(EXIT_FAILURE);
+		}
+		*(unsigned *[]){ &x, &y, &w, &h }[i] = v;
+	}
+	if (i < 4 || argi < argc) {
+		fprintf(stderr, USAGE, argv[0]);
+		exit(EXIT_FAILURE);
+	}
+
+	if (!(w > 0 && h > 0)) {
+		fprintf(stderr, "error: W and H must be greater than zero\n");
+		exit(EXIT_FAILURE);
+	}
+	if (x + w < x || x + w > LCD_PANEL_W) {
+		fprintf(stderr, "error: X + W > panel width (%d)\n",
+			LCD_PANEL_W);
+		exit(EXIT_FAILURE);
+	}
+	if (y + h < y || y + h > LCD_PANEL_H) {
+		fprintf(stderr, "error: Y + H > panel height (%d)\n",
+			LCD_PANEL_H);
+		exit(EXIT_FAILURE);
+	}
 }

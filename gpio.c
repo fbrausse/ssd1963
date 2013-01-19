@@ -3,7 +3,7 @@
  * from http://elinux.org/RPi_Low-level_peripherals
  *
  * modified by Franz Brauße, 06.01.2013, for standard compliance and added
- * tear-down function gpio_fini() */
+ * some handy functions. */
 
 #include <stdio.h>
 #include <stdlib.h>
