@@ -14,7 +14,7 @@ hold the RGB values for each pixel. It supports quite a set of commands that
 allow to easily manipulate what's shown on the LCD without changing the actual
 data in the framebuffer.
 
-This library provides access to all the documenten commands the controller
+This library provides access to all the documented commands the controller
 supports.
 
 Library
@@ -34,9 +34,9 @@ header:
    Optionally the macro SSD_RD_DATA() may be defined which allows the
    initialization code in ssd_init_pll() to verify that the PLL of the chip
    indeed has settled on the specified frequency settings and is stable.
-   However, initialization will also proceed without this macros being defined
-   and in my local experiments I haven't found a setting and PLL combination
-   that would produce unstable results.
+   However, initialization will also proceed without this macro being defined.
+   In my local experiments I haven't found a setting and PLL combination that
+   would produce unstable results.
 
  - or #define SSD_IO_MACROS to a path name (including surrounding "quotes")
    pointing to a C header file that defines the above macros.

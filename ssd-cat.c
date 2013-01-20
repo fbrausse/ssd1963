@@ -10,7 +10,7 @@
 #include "ssd1963.h"	/* commands/init functions for SSD1963 controller */
 #include "itdb02.h"	/* LCD definitions */
 
-/* use the 4.3" display from ITead Studios */
+/* use the 4.3" display from ITead Studio */
 #define LCD_PANEL	HSD043I9W1_A
 #define LCD_PANEL_W	(LCD_PANEL.hori.visible)
 #define LCD_PANEL_H	(LCD_PANEL.vert.visible)
@@ -42,9 +42,9 @@ int main(int argc, char **argv)
 
 	if (r == EXIT_SUCCESS) {
 		size_t i, n;
-		/* horizontal interval to draw to */
-		SSD_SET_PAGE_ADDRESS(y, y + h - 1);
 		/* vertical interval to draw to */
+		SSD_SET_PAGE_ADDRESS(y, y + h - 1);
+		/* horizontal interval to draw to */
 		SSD_SET_COLUMN_ADDRESS(x, x + w - 1);
 		/* writing commences... */
 		SSD_WRITE_MEMORY_START();
