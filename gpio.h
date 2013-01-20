@@ -58,7 +58,9 @@ static inline void gpio_pull(int control, uint32_t pins)
  * in and out to input respectively output mode */
 void gpio_init(void);
 void gpio_fini(void);
-void gpio_setup(uint32_t in, uint32_t out);
+/* returns 0 on success,
+ * -1 if there are pins to be set input and output, i.e. when (in & out) != 0. */
+int gpio_setup(uint32_t in, uint32_t out);
 
 static inline void gpio_write_hl(uint32_t val, uint32_t mask)
 {

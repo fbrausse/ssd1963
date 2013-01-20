@@ -64,14 +64,14 @@ void gpio_fini(void)
 	munmap((void *)gpio, BLOCK_SIZE);
 }
 
-void gpio_setup(uint32_t in, uint32_t out)
+int gpio_setup(uint32_t in, uint32_t out)
 {
 	int i;
 
 	if (in & out) {
 		printf("GPIOs must not be both, input and output: %08x\n",
 			in & out);
-		exit(-1);
+		return -1;
 	}
 
 	for (i=0; in || out; i++, in >>= 1, out >>= 1) {
