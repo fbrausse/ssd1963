@@ -1,5 +1,5 @@
-Abstract
-~~~~~~~~
+Summary
+~~~~~~~
 SSD1963 is a user-space driver library for the so-named display controller chip
 by Solomon Systech.
 
@@ -16,6 +16,15 @@ data in the framebuffer.
 
 This library provides access to all the documented commands the controller
 supports.
+
+Files
+~~~~~
+gpio.[ch]	Raspberry Pi specific macros/functions for general GPIO access
+itdb02.h	Panel definitions for ITead Studio ITDB02 displays
+ssd1963.[ch]	Core of the library, macros/functions to command the controller
+ssd-cat.c	Sample program using this lib to draw data to the framebuffer
+ssd-gpio.h	Helper header to let the commands in ssd1963.h talk to RPi GPIO
+ssd-gpio-rpi.[ch]	Mapping the bus/control lines to specific RPi GPIOs
 
 Library
 ~~~~~~~
@@ -66,8 +75,8 @@ required by the ads7846 driver to identify the touch controller. After that
 modification, Linux will automatically load the driver and provide the touch
 screen as a standard input device.
 
-Author
-~~~~~~
+About
+~~~~~
 Author of this code is Franz Brauße.
 
 The homepage currently is http://karlchenofhell.org/kram.php?part=ssd1963
