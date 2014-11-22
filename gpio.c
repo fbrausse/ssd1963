@@ -50,7 +50,7 @@ void gpio_init(void)
 
 	close(mem_fd); /* no need to keep mem_fd open after mmap */
 
-	if ((long)gpio_map < 0) {
+	if (gpio_map == MAP_FAILED) {
 		perror("mmap error");
 		exit(-1);
 	}
@@ -80,4 +80,6 @@ int gpio_setup(uint32_t in, uint32_t out)
 		if (out & 1)
 			OUT_GPIO(i);
 	}
+
+	return 0;
 }

@@ -27,7 +27,7 @@ void lcd_cmd_slow(unsigned char c);
 static inline void lcd_wr8_fast(unsigned char c)
 {
 	uint32_t d = LCD_D8(c);
-	
+
 	GPIO_CLR = (~d & GPIO_MASK) | LCD_WR_MASK;
 	GPIO_SET =   d & GPIO_MASK;
 	GPIO_SET = LCD_WR_MASK;
